@@ -163,6 +163,11 @@ i {
   border-radius: 50%;
 }
 
+.item__actions__current-num {
+  width: 33%;
+  text-align: center;
+}
+
 .item__info__price--on-sale {
   font-size: 1.3rem;
   font-weight: 600;
@@ -172,4 +177,122 @@ i {
 .item__info__price--reguler {
   color: var(--deep-grey);
   text-decoration: line-through;
+}
+
+.categories-wraper {
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+
+  overflow: hidden;
+}
+
+.category-wraper {
+  padding: 10px 18px;
+}
+
+.category-wraper:hover {
+  background-color: var(--grey);
+}
+
+.category__icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.my-carousel-wraper {
+  width: 100%;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.my-carousel__controler__prev,
+.my-carousel__controler__next {
+  height: 100%;
+  padding-left: 36px;
+  padding-right: 36px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+}
+
+.my-carousel__controler__prev:hover,
+.my-carousel__controler__next:hover {
+  background-color: var(--shadow);
+}
+
+.my-carousel__controler__prev {
+  left: 0;
+}
+
+.my-carousel__controler__next {
+  right: 0;
+}
+
+.my-carousel__controler__arrow {
+  width: 30px;
+  height: 30px;
+}
+
+.indicators-wraper {
+  width: 40%;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.indicator,
+.indicator--current {
+  display: inline-block;
+  width: 20%;
+  height: 6px;
+  margin-left: 4px;
+  margin-right: 4px;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.indicator {
+  background-color: var(--black);
+}
+
+.indicator--current {
+  background-color: var(--deep-grey);
+}
+
+.categories-controler__prev,
+.categories-controler__next {
+  height: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--grey);
+
+  position: absolute;
+  top: 0;
+}
+
+.categories-controler__prev {
+  left: 0;
+}
+
+.categories-controler__next {
+  right: 0;
+}
+
+.categories-controler__arrow {
+  width: 30px;
+  height: 30px;
 }

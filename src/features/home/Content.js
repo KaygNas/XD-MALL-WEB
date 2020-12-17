@@ -60,7 +60,7 @@ function ActionsBtton() {
         <div className="item__actions-wraper d-flex flex-row justify-content-around align-items-center">
             <i className="item__actions__decrement  d-flex align-items-center justify-content-center btn btn-warning bi bi-dash"></i>
 
-            <span className="item__actions__current-num">1</span>
+            <input className="item__actions__current-num" type="text" value="1"></input>
 
             <i class="item__actions__increment d-flex align-items-center justify-content-center btn btn-warning bi bi-plus "></i>
         </div>

@@ -1,11 +1,13 @@
 import Banner from "./Banner"
 import Content from "./Content"
+import Categories from "./Categories"
 
 export default function Home() {
     return (
-        <div className="home-wraper outter-wraper row d-flex flex-column align-items-center">
+        <main className="home-wraper outter-wraper row d-flex flex-column align-items-center">
             <Banner></Banner>
+            <Categories></Categories>
             <Content></Content>
-        </div>
+        </main>
     )
 }

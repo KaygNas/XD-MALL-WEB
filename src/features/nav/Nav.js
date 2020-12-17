@@ -1,7 +1,7 @@
 
 export default function Nav() {
     return (
-        <div className="nav-bar-wraper outter-wraper row align-items-center">
+        <nav className="nav-bar-wraper outter-wraper row align-items-center">
             <div className="nav-bar__favicon mr-auto">
                 <i class="nav-bar__icon bi bi-house"></i>祥达易购
             </div>
@@ -23,6 +23,6 @@ export default function Nav() {
             <div className="nav-bar__action-button">
                 <i class="nav-bar__icon bi bi-person"></i>我的
             </div>
-        </div>
+        </nav>
     )
 }
