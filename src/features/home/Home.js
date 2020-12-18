@@ -9,7 +9,6 @@ export default function Home() {
             <Banner></Banner>
             <Categories></Categories>
             <Content></Content>
-
         </main>
     )
 }

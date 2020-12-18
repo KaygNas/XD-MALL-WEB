@@ -11,9 +11,9 @@ export default function Nav() {
 
                 <div className="nav-bar__search-wraper mx-auto">
                     <div className="nav-bar__search">
-                        <i class="nav-bar__search__icon--start  bi bi-search"></i>
+                        <i className="nav-bar__search__icon--start  bi bi-search"></i>
                         <input class="nav-bar__search__input"></input>
-                        <i class="nav-bar__search__icon--end bi bi-x"></i>
+                        <i className="nav-bar__search__icon--end bi bi-x"></i>
                     </div>
 
                 </div>
