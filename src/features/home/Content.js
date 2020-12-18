@@ -24,33 +24,43 @@ export default function Content() {
     )
 }
 
-function ItemCard() {
+export function ItemCard() {
     return (
         <div className="item-card-wraper col-3 ">
             <div className="item d-flex flex-column align-items-center">
                 <img className="item__img" alt="item_img" src={blankImg}></img>
-
                 <ItemInfo></ItemInfo>
-
                 <ActionsBtton></ActionsBtton>
             </div>
         </div>
     )
 }
 
-function ItemInfo() {
+export function ItemInfo() {
     return (
-        <div className="item__info d-flex flex-column align-items-bottom">
-            <div className="item__info__detail">
-                <span className="item__info__name">百事可乐</span>
-                <div className="item__info__attributes">
-                    <span>250mL*24</span>
-                </div>
+        <div className="item__info text-center">
+            <ItemInfoDetail></ItemInfoDetail>
+            <ItemInfoPrice></ItemInfoPrice>
+        </div>
+    )
+}
+
+export function ItemInfoDetail({ className }) {
+    return (
+        <div className={"item__info__detail " + className}>
+            <span className="item__info__name">百事可乐名字很长</span>
+            <div className="item__info__attributes">
+                <span>250mL*24</span>
             </div>
-            <div className="item__info__price">
-                <span className="item__info__price--on-sale">￥24</span>
-                <span className="item__info__price--reguler">￥25.5</span>
-            </div>
+        </div>
+    )
+}
+
+export function ItemInfoPrice({ className }) {
+    return (
+        <div className={"item__info__price " + className}>
+            <span className="item__info__price--on-sale">￥24</span>
+            <span className="item__info__price--reguler">￥25.5</span>
         </div>
     )
 }

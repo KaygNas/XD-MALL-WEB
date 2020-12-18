@@ -4,7 +4,7 @@ import Carousel from "../common/Carousel"
 
 export default function Banner() {
     return (
-        <div className="banner-wraper row">
+        <div className="banner-wraper">
             <Carousel>
                 <img
                     className="banner__img"
