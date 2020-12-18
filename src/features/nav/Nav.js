@@ -21,8 +21,8 @@ export default function Nav() {
                 <ActionButtons></ActionButtons>
             </div>
 
-            <SearchResultList></SearchResultList>
-            <CartDropList></CartDropList>
+            {/* <SearchResultList></SearchResultList>
+            <CartDropList></CartDropList> */}
         </nav>
 
     )

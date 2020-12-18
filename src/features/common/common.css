@@ -1,0 +1,98 @@
+.my-carousel-wraper {
+  width: 100%;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.my-carousel__controler__prev,
+.my-carousel__controler__next {
+  height: 100%;
+  padding-left: 36px;
+  padding-right: 36px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+}
+
+.my-carousel__controler__prev:hover,
+.my-carousel__controler__next:hover {
+  background-color: var(--shadow);
+}
+
+.my-carousel__controler__prev {
+  left: 0;
+}
+
+.my-carousel__controler__next {
+  right: 0;
+}
+
+.my-carousel__controler__arrow {
+  width: 30px;
+  height: 30px;
+}
+
+.indicators-wraper {
+  width: 40%;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.indicator,
+.indicator--current {
+  display: inline-block;
+  width: 20%;
+  height: 6px;
+  margin-left: 4px;
+  margin-right: 4px;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.indicator {
+  background-color: var(--black);
+}
+
+.indicator--current {
+  background-color: var(--deep-grey);
+}
+
+.pop-up-wraper {
+  padding-top: 40px;
+  border-radius: 4px;
+  background-color: var(--bg-color);
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  z-index: 2001;
+}
+
+.pop-up__cancel {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.589);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.pop-up-mask {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0.5;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+}

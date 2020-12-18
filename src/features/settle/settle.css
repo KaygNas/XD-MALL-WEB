@@ -1,0 +1,97 @@
+.settle-wraper {
+  background-color: var(--bg-color);
+  overflow: hidden;
+}
+
+.settle-wraper.outter-wraper {
+  padding: 0 min(30vw, 400px);
+  padding-bottom: 200px;
+}
+
+.settle__header {
+  font-size: 2.4rem;
+  font-weight: 600;
+  margin-top: 80px;
+  margin-bottom: 60px;
+}
+.settle__header::after {
+  content: "";
+  display: block;
+  margin-top: 6px;
+  border-bottom: 0.2rem solid #000000;
+}
+
+.settle__address-wraper,
+.settle__list-wraper {
+  position: relative;
+  border-radius: 4px;
+  border: 1px solid var(--deep-grey);
+}
+
+.settle__list-wraper {
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.settle__address-wraper {
+  padding: 10px 20px;
+}
+
+.settle__address {
+  font-size: 1.2rem;
+}
+
+.settle__address__name {
+  margin-right: 12px;
+}
+
+.settle__address__detail {
+  margin-top: 8px;
+  color: var(--deep-grey);
+}
+
+.settle__address__edit-btn-wraper {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.settle__address__edit-btn {
+  width: 120px;
+}
+
+.settle__address__edit-btn:first-child {
+  margin-bottom: 6px;
+}
+
+.settle__address--edit {
+  flex-grow: 1;
+  margin-right: 20px;
+}
+
+.settle__address--edit .input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.settle__address--edit label {
+  margin-bottom: 0;
+}
+
+.settle-noti-wraper {
+  margin-top: 10vh;
+}
+
+.settle-noti__icon {
+  font-size: 8rem;
+  color: rgb(30, 179, 30);
+}
+
+.settle-noti__title {
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.settle-noti__back {
+  margin-top: 80px;
+}
