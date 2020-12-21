@@ -30,7 +30,7 @@ export default function Home() {
         <main className="home-wraper outter-wraper d-flex flex-column align-items-center row">
             <Banners data={banners}></Banners>
             <Categories></Categories>
-            <Content products={products}></Content>
+            <Content products={products} setProducts={setProducts}></Content>
         </main>
     )
 }

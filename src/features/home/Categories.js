@@ -6,11 +6,13 @@ export default function Categories() {
 
     return (
         <nav className="categories-wraper d-flex flex-row">
-            <div class="categories-controler__prev">
+            <div className="categories-controler__prev">
                 <ArrowLeftShort className="categories-controler__arrow"></ArrowLeftShort>
             </div>
-            {categories.map(() => <Category />)}
-            <div class="categories-controler__next">
+            {categories.map(() => (
+                <Category />
+            ))}
+            <div className="categories-controler__next">
                 <ArrowRightShort className="categories-controler__arrow"></ArrowRightShort>
             </div>
         </nav>
@@ -21,7 +23,7 @@ function Category() {
     return (
         <div className="category-wraper d-flex flex-column align-items-center">
             <img className="category__icon" alt="分类1" src={blankImg}></img>
-        分类1
+            分类1
         </div>
     )
 }

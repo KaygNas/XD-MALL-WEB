@@ -1,7 +1,35 @@
-import blankImg from "../../images/blank_img.png"
 import PopUp from "../common/PopUp"
+import { changeItemQty as changeItemQtyInCart } from "../../app/cartSlice"
+import { useDispatch } from "react-redux"
 
-export default function Content({ products }) {
+export default function Content({ products, setProducts }) {
+    const dispatch = useDispatch()
+
+    function increaseItemQtyById(id) {
+        const item = selectItemById(id)
+        item.qty = item.qty ? item.qty + 1 : 1
+        dispatch(changeItemQtyInCart({ id, qty: item.qty }))
+        setProducts([...products])
+    }
+
+    function decreaseItemQtyById(id) {
+        const item = selectItemById(id)
+        item.qty = item.qty && item.qty > 0 ? item.qty - 1 : 0
+        dispatch(changeItemQtyInCart({ id, qty: item.qty }))
+        setProducts([...products])
+    }
+
+    function changeItemQtyByIdAndNum(id, num) {
+        const item = selectItemById(id)
+        item.qty = num && num > 0 ? num : 0
+        dispatch(changeItemQtyInCart({ id, qty: item.qty }))
+        setProducts([...products])
+    }
+
+    function selectItemById(id) {
+        return products.find((item) => item.id === id)
+    }
+
     return (
         <>
             <div className="content-wraper d-flex flex-column">
@@ -24,7 +52,15 @@ export default function Content({ products }) {
 
                 <div className="content__main row">
                     {products.map((item) => (
-                        <ItemCard item={item}></ItemCard>
+                        <ItemCard
+                            key={item.id}
+                            item={item}
+                            increaseQty={() => increaseItemQtyById(item.id)}
+                            decreaseQty={() => decreaseItemQtyById(item.id)}
+                            inputQty={(num) =>
+                                changeItemQtyByIdAndNum(item.id, num)
+                            }
+                        ></ItemCard>
                     ))}
                 </div>
             </div>
@@ -62,7 +98,7 @@ function ItemDetailPopUp() {
     )
 }
 
-function ItemCard({ item }) {
+function ItemCard({ item, increaseQty, decreaseQty, inputQty }) {
     return (
         <div className="item-card-wraper col-3 ">
             <div className="item d-flex flex-column align-items-center">
@@ -73,7 +109,12 @@ function ItemCard({ item }) {
                     regularPrice={item.regularPrice}
                     salePrice={item.salePrice}
                 ></ItemInfo>
-                <ActionsBtton></ActionsBtton>
+                <ActionsBtton
+                    increaseQty={increaseQty}
+                    decreaseQty={decreaseQty}
+                    inputQty={inputQty}
+                    qty={item.qty || 0}
+                ></ActionsBtton>
             </div>
         </div>
     )
@@ -121,7 +162,13 @@ export function ItemInfoPrice({ className = "", regularPrice, salePrice }) {
     )
 }
 
-function ActionsBtton({ className = "" }) {
+function ActionsBtton({
+    className = "",
+    increaseQty,
+    decreaseQty,
+    inputQty,
+    qty
+}) {
     return (
         <div
             className={
@@ -129,15 +176,25 @@ function ActionsBtton({ className = "" }) {
                 className
             }
         >
-            <i className="item__actions__decrement  d-flex align-items-center justify-content-center btn btn-warning bi bi-dash"></i>
+            {qty > 0 && (
+                <>
+                    <i
+                        className="item__actions__decrement  d-flex align-items-center justify-content-center btn btn-warning bi bi-dash"
+                        onClick={decreaseQty}
+                    ></i>
 
-            <input
-                className="item__actions__current-num"
-                type="text"
-                value="1"
-            ></input>
-
-            <i class="item__actions__increment d-flex align-items-center justify-content-center btn btn-warning bi bi-plus "></i>
+                    <input
+                        className="item__actions__current-num"
+                        type="text"
+                        value={qty}
+                        onChange={(e) => inputQty(e.target.value)}
+                    ></input>
+                </>
+            )}
+            <i
+                className="item__actions__increment d-flex align-items-center justify-content-center btn btn-warning bi bi-plus "
+                onClick={increaseQty}
+            ></i>
         </div>
     )
 }

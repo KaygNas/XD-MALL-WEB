@@ -68,19 +68,19 @@ function AddressEdit() {
                     <label className="col-3" htmlFor="address_name">
                         店名：
                     </label>
-                    <input type="text" class="form-control" />
+                    <input type="text" className="form-control" />
                 </div>
                 <div className="input-group  mb-2 row">
                     <label className="col-3" htmlFor="address_tel">
                         联系电话：
                     </label>
-                    <input type="tel" class="form-control" />
+                    <input type="tel" className="form-control" />
                 </div>
                 <div className="input-group row">
                     <label className="col-3" htmlFor="address_detail">
                         详细地址：
                     </label>
-                    <input type="text" class="form-control" />
+                    <input type="text" className="form-control" />
                 </div>
             </form>
 

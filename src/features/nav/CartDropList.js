@@ -1,22 +1,10 @@
 import ProductsList from "../common/ProductsList"
 import ActionsBar from "../common/ActionsBar"
 import "./nav.css"
-import { getDataByApi } from "../../app/dataRequest"
-import { useEffect, useState } from "react"
 import { useNavTo } from "../../app/hooks"
 
-export default function CartDropList() {
-    const [cart, setCart] = useState(null)
+export default function CartDropList({ cart }) {
     const navTo = useNavTo()
-
-    useEffect(() => {
-        getCart()
-    }, [])
-
-    async function getCart() {
-        const cart = (await getDataByApi("cart")).data
-        setCart(cart)
-    }
 
     return (
         <div className="cart-drop-list-wraper drop-list">
