@@ -55,7 +55,7 @@
 .indicator--current {
     display: inline-block;
     width: 20%;
-    height: 6px;
+    height: 8px;
     margin-left: 4px;
     margin-right: 4px;
     opacity: 0.7;
@@ -100,4 +100,33 @@
     top: 0;
     left: 0;
     z-index: 2000;
+}
+
+.produts-list__item__qty {
+    font-size: 1.2rem;
+    color: var(--deep-grey);
+    text-align: right;
+    width: 60px;
+}
+
+.products-list {
+    width: 100%;
+}
+
+.products-list__item {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.products-list__item__img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.products-list__item__detail {
+    margin-right: auto;
 }

@@ -1,7 +1,18 @@
+import { useState } from "react"
 import CartDropList from "./CartDropList"
 import SearchResultList from "./SearchResultList"
 
 export default function Nav() {
+    const [showCartList, setShowCartList] = useState(false)
+    function showElementByType(type) {
+        switch (type) {
+            case "cart":
+                setShowCartList((state) => !state)
+                break
+            default:
+        }
+    }
+
     return (
         <nav className="nav-bar-wraper outter-wraper">
             <div className=" d-flex flex-row align-items-center">
@@ -17,27 +28,37 @@ export default function Nav() {
                     </div>
                 </div>
 
-                <ActionButtons></ActionButtons>
+                <ActionButtons
+                    showElementByType={showElementByType}
+                ></ActionButtons>
             </div>
 
-            {/* <SearchResultList></SearchResultList>
-      <CartDropList></CartDropList> */}
+            {/* <SearchResultList></SearchResultList> */}
+            {showCartList && <CartDropList></CartDropList>}
         </nav>
     )
 }
 
-function ActionButtons() {
+function ActionButtons({ showElementByType }) {
     return (
         <>
-            <div className="nav-bar__action-button">
-                <i class="nav-bar__icon  bi bi-search"></i>搜索
-            </div>
-            <div className="nav-bar__action-button">
-                <i class="nav-bar__icon  bi bi-cart"></i>购物车
-            </div>
-            <div className="nav-bar__action-button">
+            <button
+                className="nav-bar__action-button"
+                type="button"
+                onClick={() => showElementByType("search")}
+            >
+                <i class="nav-bar__icon  bi bi-search" type="button"></i>搜索
+            </button>
+            <button
+                className="nav-bar__action-button"
+                type="button"
+                onClick={() => showElementByType("cart")}
+            >
+                <i class="nav-bar__icon  bi bi-cart" type="button"></i>购物车
+            </button>
+            <button className="nav-bar__action-button" type="button">
                 <i class="nav-bar__icon bi bi-person"></i>我的
-            </div>
+            </button>
         </>
     )
 }

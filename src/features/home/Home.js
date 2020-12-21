@@ -2,27 +2,35 @@ import Banners from "./Banners"
 import Content from "./Content"
 import Categories from "./Categories"
 import "./home.css"
-import { getData } from "../../app/dataRequest"
+import { getDataByApi } from "../../app/dataRequest"
 import { useEffect, useState } from "react"
 
 export default function Home() {
     const [banners, setBanners] = useState([])
+    const [products, setProducts] = useState([])
 
     useEffect(() => {
         getBanners()
+        getProducts()
     }, [])
 
     async function getBanners() {
-        const response = await (await getData("banners")).json()
+        const response = await getDataByApi("banners")
         const banners = response.data
         setBanners(banners)
+    }
+
+    async function getProducts() {
+        const response = await getDataByApi("products")
+        const products = response.data
+        setProducts(products)
     }
 
     return (
         <main className="home-wraper outter-wraper d-flex flex-column align-items-center row">
             <Banners data={banners}></Banners>
             <Categories></Categories>
-            <Content></Content>
+            <Content products={products}></Content>
         </main>
     )
 }

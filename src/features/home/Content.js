@@ -1,7 +1,7 @@
 import blankImg from "../../images/blank_img.png"
 import PopUp from "../common/PopUp"
 
-export default function Content() {
+export default function Content({ products }) {
     return (
         <>
             <div className="content-wraper d-flex flex-column">
@@ -23,13 +23,9 @@ export default function Content() {
                 </div>
 
                 <div className="content__main row">
-                    <ItemCard></ItemCard>
-                    <ItemCard></ItemCard>
-                    <ItemCard></ItemCard>
-                    <ItemCard></ItemCard>
-                    <ItemCard></ItemCard>
-                    <ItemCard></ItemCard>
-                    <ItemCard></ItemCard>
+                    {products.map((item) => (
+                        <ItemCard item={item}></ItemCard>
+                    ))}
                 </div>
             </div>
             {/* <ItemDetailPopUp></ItemDetailPopUp> */}
@@ -66,53 +62,61 @@ function ItemDetailPopUp() {
     )
 }
 
-function ItemCard() {
+function ItemCard({ item }) {
     return (
         <div className="item-card-wraper col-3 ">
             <div className="item d-flex flex-column align-items-center">
-                <ItemImg></ItemImg>
-                <ItemInfo></ItemInfo>
+                <ItemImg src={item.image.src}></ItemImg>
+                <ItemInfo
+                    name={item.name}
+                    size={item.size}
+                    regularPrice={item.regularPrice}
+                    salePrice={item.salePrice}
+                ></ItemInfo>
                 <ActionsBtton></ActionsBtton>
             </div>
         </div>
     )
 }
 
-function ItemImg({ className = "" }) {
+function ItemImg({ className = "", src }) {
     return (
         <img
             className={"item__img " + className}
             alt="item_img"
-            src={blankImg}
+            src={src}
         ></img>
     )
 }
 
-function ItemInfo() {
+function ItemInfo({ name, size, regularPrice, salePrice }) {
     return (
         <div className="item__info text-center">
-            <ItemInfoDetail></ItemInfoDetail>
-            <ItemInfoPrice></ItemInfoPrice>
+            <ItemInfoDetail name={name} size={size}></ItemInfoDetail>
+            <ItemInfoPrice
+                regularPrice={regularPrice}
+                salePrice={salePrice}
+            ></ItemInfoPrice>
         </div>
     )
 }
 
-export function ItemInfoDetail({ className = "" }) {
+export function ItemInfoDetail({ className = "", name, size }) {
     return (
         <div className={"item__info__detail " + className}>
-            <span className="item__info__name">百事可乐名字很长</span>
+            <span className="item__info__name">{name}</span>
             <div className="item__info__attributes">
-                <span>250mL*24</span>
+                <span>{size}</span>
             </div>
         </div>
     )
 }
 
-export function ItemInfoPrice({ className = "" }) {
+export function ItemInfoPrice({ className = "", regularPrice, salePrice }) {
     return (
         <div className={"item__info__price " + className}>
-            <span className="item__info__price--on-sale">￥24</span>
-            <span className="item__info__price--regular">￥25.5</span>
+            <span className="item__info__price--on-sale">{salePrice}</span>
+            <span className="item__info__price--regular">{regularPrice}</span>
         </div>
     )
 }
