@@ -1,0 +1,24 @@
+{
+    "success": true,
+    "data": [{
+            "altMsg": "图片1",
+            "src": "http://www.51cie.net.cn/images/banner1.png"
+        },
+        {
+            "altMsg": "图片2",
+            "src": "http://www.51cie.net.cn/images/banner2.png"
+        },
+        {
+            "altMsg": "图片3",
+            "src": "http://www.51cie.net.cn/images/banner3.png"
+        },
+        {
+            "altMsg": "图片4",
+            "src": "http://www.51cie.net.cn/images/banner4.png"
+        },
+        {
+            "altMsg": "图片5",
+            "src": "http://www.51cie.net.cn/images/banner5.png"
+        }
+    ]
+}

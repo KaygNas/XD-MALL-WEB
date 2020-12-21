@@ -21,7 +21,7 @@ function App() {
         <Route exact path="/settle/succeed">
           <SettleSucceed></SettleSucceed>
         </Route>
-        <Redirect to="/settle/succeed"></Redirect>
+        <Redirect to="/home"></Redirect>
       </Switch>
     </div>
   )
