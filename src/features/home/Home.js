@@ -4,10 +4,12 @@ import Categories from "./Categories"
 import "./home.css"
 import { getDataByApi } from "../../app/dataRequest"
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 
 export default function Home() {
     const [banners, setBanners] = useState([])
     const [products, setProducts] = useState([])
+    const cartItems = useSelector((state) => state.cart.items)
 
     useEffect(() => {
         getBanners()

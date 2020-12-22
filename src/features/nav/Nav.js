@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { updateData } from "../../app/cartSlice"
-import { getDataByApi } from "../../app/dataRequest"
+import { fetchCart } from "../../app/cartSlice"
 import CartDropList from "./CartDropList"
 import SearchResultList from "./SearchResultList"
 
@@ -11,8 +10,8 @@ export default function Nav() {
     const cart = useSelector((state) => state.cart)
 
     useEffect(() => {
-        getCart()
-    }, [])
+        dispatch(fetchCart())
+    }, [dispatch])
 
     function showElementByType(type) {
         switch (type) {
@@ -21,11 +20,6 @@ export default function Nav() {
                 break
             default:
         }
-    }
-
-    async function getCart() {
-        const cart = (await getDataByApi("cart")).data
-        dispatch(updateData(cart))
     }
 
     return (

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { ArrowLeft, ArrowRight } from "../../images/Icons"
 
 export default function MyCarousel({ children }) {
@@ -8,17 +8,37 @@ export default function MyCarousel({ children }) {
         transform: "translateX(0)"
     })
     const items = useRef({})
+    const intervalId = useRef(null)
+
+    useEffect(() => {
+        autoSwitchWithDuration(3000)
+        return () => clearInterval(intervalId.current)
+    }, [carouselItems])
+
+    function autoSwitchWithDuration(duration) {
+        if (intervalId.current) {
+            clearInterval(intervalId.current)
+        }
+
+        intervalId.current = setInterval(() => {
+            switchToNext()
+        }, duration)
+    }
 
     function switchToPrev() {
-        let index = curIndex > 0 ? curIndex - 1 : carouselItems.length - 1
-        setCurIndex(index)
-        translateItems(index)
+        setCurIndex((curIndex) => {
+            let index = curIndex > 0 ? curIndex - 1 : carouselItems.length - 1
+            translateItems(index)
+            return index
+        })
     }
 
     function switchToNext() {
-        let index = curIndex < carouselItems.length - 1 ? curIndex + 1 : 0
-        setCurIndex(index)
-        translateItems(index)
+        setCurIndex((curIndex) => {
+            let index = curIndex < carouselItems.length - 1 ? curIndex + 1 : 0
+            translateItems(index)
+            return index
+        })
     }
 
     function switchToIndex(index) {
