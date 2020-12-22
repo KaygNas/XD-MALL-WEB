@@ -1,48 +1,27 @@
 import PopUp from "../common/PopUp"
 import {
-    changeItemQtyInCart,
-    insertItemIntoCart,
-    removeItemFromCart
+    increaseItemQty,
+    decreaseItemQty,
+    changeItemQty
 } from "../../app/cartSlice"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react"
 
-export default function Content({ products, setProducts }) {
+export default function Content({ products }) {
     const dispatch = useDispatch()
     const [popUpItemId, setPopUpItemId] = useState(0)
+    const [showOnlyInStock, setShowOnlyInStock] = useState(false)
+    const shownProducts = products.filter(
+        (product) => !showOnlyInStock || product.inStock === true
+    )
     const popUpItem = selectItemById(popUpItemId)
-
-    function increaseItemQtyById(id) {
-        const item = selectItemById(id)
-        if (item.qty) {
-            item.qty += 1
-            dispatch(changeItemQtyInCart({ id, qty: item.qty }))
-        } else {
-            item.qty = 1
-            dispatch(insertItemIntoCart(item))
-        }
-    }
-
-    function decreaseItemQtyById(id) {
-        const item = selectItemById(id)
-        if (item.qty && item.qty > 1) {
-            item.qty -= 1
-            dispatch(changeItemQtyInCart({ id, qty: item.qty }))
-        } else {
-            dispatch(removeItemFromCart(id))
-        }
-    }
-
-    function changeItemQtyByIdAndNum(id, qty) {
-        if (qty && qty > 0) {
-            dispatch(changeItemQtyInCart({ id, qty }))
-        } else {
-            dispatch(removeItemFromCart(id))
-        }
-    }
 
     function selectItemById(id) {
         return products.find((item) => item.id === id)
+    }
+
+    function switchStateOnlyShowInStockTo() {
+        setShowOnlyInStock((state) => !state)
     }
 
     return (
@@ -50,11 +29,15 @@ export default function Content({ products, setProducts }) {
             <div className="content-wraper d-flex flex-column">
                 <div className="content__header d-flex">
                     <h2 className="content__header-title mx-auto">特价商品</h2>
-                    <div className="content__header-filter">
+                    <div
+                        className="content__header-filter"
+                        onClick={switchStateOnlyShowInStockTo}
+                    >
                         <input
                             className="content__header-filter__input"
                             type="checkbox"
                             name="checkbox__only-in-stock"
+                            checked={showOnlyInStock}
                         ></input>
                         <label
                             className="content__header-filter__label"
@@ -66,15 +49,16 @@ export default function Content({ products, setProducts }) {
                 </div>
 
                 <div className="content__main row">
-                    {products.map((item) => (
+                    {shownProducts.map((item) => (
                         <ItemCard
                             key={item.id}
                             item={item}
-                            increaseQty={() => increaseItemQtyById(item.id)}
-                            decreaseQty={() => decreaseItemQtyById(item.id)}
-                            inputQty={(num) =>
-                                changeItemQtyByIdAndNum(item.id, num)
-                            }
+                            increaseQty={() => dispatch(increaseItemQty(item))}
+                            decreaseQty={() => dispatch(decreaseItemQty(item))}
+                            inputQty={(qty) => {
+                                item.qty = qty
+                                dispatch(changeItemQty(item))
+                            }}
                             onClick={() => setPopUpItemId(item.id)}
                         ></ItemCard>
                     ))}
@@ -82,9 +66,12 @@ export default function Content({ products, setProducts }) {
             </div>
             <ItemDetailPopUp
                 item={popUpItem}
-                increaseQty={() => increaseItemQtyById(popUpItem.id)}
-                decreaseQty={() => decreaseItemQtyById(popUpItem.id)}
-                inputQty={(num) => changeItemQtyByIdAndNum(popUpItem.id, num)}
+                increaseQty={() => dispatch(increaseItemQty(popUpItem))}
+                decreaseQty={() => dispatch(decreaseItemQty(popUpItem))}
+                inputQty={(qty) => {
+                    popUpItem.qty = qty
+                    dispatch(changeItemQty(popUpItem))
+                }}
                 onClose={() => setPopUpItemId(0)}
             ></ItemDetailPopUp>
         </>
@@ -129,6 +116,7 @@ function ItemDetailPopUp({
                         decreaseQty={decreaseQty}
                         inputQty={inputQty}
                         qty={item.qty || 0}
+                        inStock={item.inStock}
                     ></ActionsBtton>
                 </div>
             </PopUp>
@@ -140,12 +128,9 @@ function ItemDetailPopUp({
 
 function ItemCard({ item, increaseQty, decreaseQty, inputQty, onClick }) {
     return (
-        <div className="item-card-wraper col-3 ">
-            <div
-                className="item d-flex flex-column align-items-center"
-                onClick={onClick}
-            >
-                <ItemImg src={item.image.src}></ItemImg>
+        <div className="item-card-wraper col-xl-3 col-lg-4 col-md-6 ">
+            <div className="item d-flex flex-column align-items-center">
+                <ItemImg src={item.image.src} onClick={onClick}></ItemImg>
                 <ItemInfo
                     name={item.name}
                     size={item.size}
@@ -157,18 +142,20 @@ function ItemCard({ item, increaseQty, decreaseQty, inputQty, onClick }) {
                     decreaseQty={decreaseQty}
                     inputQty={inputQty}
                     qty={item.qty || 0}
+                    inStock={item.inStock}
                 ></ActionsBtton>
             </div>
         </div>
     )
 }
 
-function ItemImg({ className = "", src }) {
+function ItemImg({ className = "", src, onClick }) {
     return (
         <img
             className={"item__img " + className}
             alt="item_img"
             src={src}
+            onClick={onClick}
         ></img>
     )
 }
@@ -210,8 +197,14 @@ function ActionsBtton({
     increaseQty,
     decreaseQty,
     inputQty,
-    qty
+    qty,
+    inStock
 }) {
+    const showDecrementBtn = Boolean(inStock && qty && qty > 0)
+    const showInput = Boolean(inStock && qty && qty > 0)
+    const showIncrementBtn = Boolean(inStock)
+    const showOutOfStockText = Boolean(!inStock)
+
     return (
         <div
             className={
@@ -219,25 +212,32 @@ function ActionsBtton({
                 className
             }
         >
-            {qty > 0 && (
-                <>
-                    <i
-                        className="item__actions__decrement  d-flex align-items-center justify-content-center btn btn-warning bi bi-dash"
-                        onClick={decreaseQty}
-                    ></i>
-
-                    <input
-                        className="item__actions__current-num"
-                        type="text"
-                        value={qty}
-                        onChange={(e) => inputQty(e.target.value)}
-                    ></input>
-                </>
+            {showDecrementBtn && (
+                <i
+                    className="item__actions__decrement  d-flex align-items-center justify-content-center btn btn-warning bi bi-dash"
+                    onClick={decreaseQty}
+                ></i>
             )}
-            <i
-                className="item__actions__increment d-flex align-items-center justify-content-center btn btn-warning bi bi-plus "
-                onClick={increaseQty}
-            ></i>
+
+            {showInput && (
+                <input
+                    className="item__actions__current-num"
+                    type="text"
+                    value={qty}
+                    onChange={(e) => inputQty(Number(e.target.value))}
+                ></input>
+            )}
+
+            {showIncrementBtn && (
+                <i
+                    className="item__actions__increment d-flex align-items-center justify-content-center btn btn-warning bi bi-plus "
+                    onClick={increaseQty}
+                ></i>
+            )}
+
+            {showOutOfStockText && (
+                <div className="item__out-of-stock">缺货</div>
+            )}
         </div>
     )
 }

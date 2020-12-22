@@ -9,21 +9,36 @@ const cartSlice = createSlice({
     name: "cart",
     initialState: { status: "idle", items: [] },
     reducers: {
-        insertItemIntoCart: (state, action) => {
+        increaseItemQty: (state, action) => {
             const item = action.payload
-            state.items.push(item)
+            debugger
+            const { item: itemInCart, index } = selectItemById(state, item.id)
+            if (index > -1) {
+                itemInCart.qty += 1
+            } else {
+                item.qty = 1
+                state.items.push(item)
+            }
             state.total = calcItemsTotal(state.items)
         },
-        changeItemQtyInCart: (state, action) => {
-            const { id, qty } = action.payload
-            const item = selectItemById(state, id)
-            item.qty = qty
+        decreaseItemQty: (state, action) => {
+            const item = action.payload
+            const { item: itemInCart, index } = selectItemById(state, item.id)
+            if (index > -1 && itemInCart.qty > 1) {
+                itemInCart.qty -= 1
+            } else {
+                state.items.splice(index, 1)
+            }
             state.total = calcItemsTotal(state.items)
         },
-        removeItemFromCart: (state, action) => {
-            const id = action.payload
-            const index = state.items.findIndex((item) => item.id === id)
-            index > -1 && state.items.splice(index, 1)
+        changeItemQty: (state, action) => {
+            const item = action.payload
+            const { item: itemInCart, index } = selectItemById(state, item.id)
+            if (item.qty > 0) {
+                itemInCart.qty = item.qty
+            } else {
+                state.items.splice(index, 1)
+            }
             state.total = calcItemsTotal(state.items)
         }
     },
@@ -38,13 +53,15 @@ const cartSlice = createSlice({
 export default cartSlice.reducer
 
 export const {
-    changeItemQtyInCart,
-    insertItemIntoCart,
-    removeItemFromCart
+    increaseItemQty,
+    decreaseItemQty,
+    changeItemQty
 } = cartSlice.actions
 
 export function selectItemById(state, id) {
-    return state.items.find((item) => item.id === id)
+    const item = state.items.find((item) => item.id === id)
+    const index = state.items.indexOf(item)
+    return { item, index }
 }
 
 function calcItemsTotal(items) {

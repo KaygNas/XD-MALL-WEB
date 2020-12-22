@@ -10,7 +10,7 @@ export default function PopUp({ children, className, onClose }) {
                 </div>
             </div>
 
-            <div className="pop-up-mask"></div>
+            <div className="pop-up-mask" onClick={onClose}></div>
         </>
     )
 }

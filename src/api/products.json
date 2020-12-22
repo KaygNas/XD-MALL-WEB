@@ -8,7 +8,8 @@
         "salePrice": 24,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner1.png"
-        }
+        },
+        "inStock": false
     }, {
         "id": 2,
         "name": "产品2",
@@ -17,7 +18,8 @@
         "salePrice": 22,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner2.png"
-        }
+        },
+        "inStock": false
     }, {
         "id": 3,
         "name": "产品3",
@@ -26,7 +28,8 @@
         "salePrice": 26,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner3.png"
-        }
+        },
+        "inStock": false
     }, {
         "id": 4,
         "name": "产品4",
@@ -35,7 +38,8 @@
         "salePrice": 24,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner4.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 5,
         "name": "产品5",
@@ -44,7 +48,8 @@
         "salePrice": 22,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner5.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 11,
         "name": "产品11",
@@ -53,7 +58,8 @@
         "salePrice": 24,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner1.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 12,
         "name": "产品12",
@@ -62,7 +68,8 @@
         "salePrice": 22,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner2.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 13,
         "name": "产品13",
@@ -71,7 +78,8 @@
         "salePrice": 26,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner3.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 14,
         "name": "产品14",
@@ -80,7 +88,8 @@
         "salePrice": 24,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner4.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 15,
         "name": "产品15",
@@ -89,7 +98,8 @@
         "salePrice": 22,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner5.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 21,
         "name": "产品21",
@@ -98,7 +108,8 @@
         "salePrice": 24,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner1.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 22,
         "name": "产品22",
@@ -107,7 +118,8 @@
         "salePrice": 22,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner2.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 23,
         "name": "产品23",
@@ -116,7 +128,8 @@
         "salePrice": 26,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner3.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 24,
         "name": "产品24",
@@ -125,7 +138,8 @@
         "salePrice": 24,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner4.png"
-        }
+        },
+        "inStock": true
     }, {
         "id": 25,
         "name": "产品25",
@@ -134,6 +148,7 @@
         "salePrice": 22,
         "image": {
             "src": "http://www.51cie.net.cn/images/banner5.png"
-        }
+        },
+        "inStock": true
     }]
 }

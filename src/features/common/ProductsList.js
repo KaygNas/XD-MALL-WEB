@@ -20,7 +20,9 @@ export default function ProductsList({ item = {} }) {
                     regularPrice={item.regularPrice}
                     salePrice={item.salePrice}
                 ></ItemInfoPrice>
-                <span className="produts-list__item__qty">x{item.qty}</span>
+                {item.qty && (
+                    <span className="produts-list__item__qty">x{item.qty}</span>
+                )}
             </li>
         </ul>
     )
