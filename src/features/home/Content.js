@@ -4,10 +4,13 @@ import {
     insertItemIntoCart,
     removeItemFromCart
 } from "../../app/cartSlice"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import { useState } from "react"
 
 export default function Content({ products, setProducts }) {
     const dispatch = useDispatch()
+    const [popUpItemId, setPopUpItemId] = useState(0)
+    const popUpItem = selectItemById(popUpItemId)
 
     function increaseItemQtyById(id) {
         const item = selectItemById(id)
@@ -72,48 +75,76 @@ export default function Content({ products, setProducts }) {
                             inputQty={(num) =>
                                 changeItemQtyByIdAndNum(item.id, num)
                             }
+                            onClick={() => setPopUpItemId(item.id)}
                         ></ItemCard>
                     ))}
                 </div>
             </div>
-            {/* <ItemDetailPopUp></ItemDetailPopUp> */}
+            <ItemDetailPopUp
+                item={popUpItem}
+                increaseQty={() => increaseItemQtyById(popUpItem.id)}
+                decreaseQty={() => decreaseItemQtyById(popUpItem.id)}
+                inputQty={(num) => changeItemQtyByIdAndNum(popUpItem.id, num)}
+                onClose={() => setPopUpItemId(0)}
+            ></ItemDetailPopUp>
         </>
     )
 }
 
-function ItemDetailPopUp() {
-    return (
-        <PopUp>
-            <div className="item-detail-wraper d-flex flex-column align-items-center">
-                <div className="item-detail border-bottom">
-                    <ItemImg className="item-detail__img"></ItemImg>
-                    <div className="item-detail__summary border-bottom">
-                        <span className="item-detail__summary__name">
-                            我有一个新名字
-                        </span>
-                        <div className="item-detail__summary__price">
-                            <span className="item-detail__summary__price--on-sale item__info__price--on-sale">
-                                ￥123.5
+function ItemDetailPopUp({
+    item,
+    increaseQty,
+    decreaseQty,
+    inputQty,
+    onClose
+}) {
+    if (item) {
+        return (
+            <PopUp onClose={onClose}>
+                <div className="item-detail-wraper d-flex flex-column align-items-center">
+                    <div className="item-detail border-bottom">
+                        <ItemImg
+                            className="item-detail__img"
+                            src={item.image.src}
+                        ></ItemImg>
+                        <div className="item-detail__summary border-bottom">
+                            <span className="item-detail__summary__name">
+                                {item.name}
                             </span>
-                            <span className="item-detail__summary__price--regular item__info__price--regular">
-                                ￥223.5
-                            </span>
+                            <div className="item-detail__summary__price">
+                                <span className="item-detail__summary__price--on-sale item__info__price--on-sale">
+                                    {item.salePrice}
+                                </span>
+                                <span className="item-detail__summary__price--regular item__info__price--regular">
+                                    {item.regularPrice}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="item-detail__info d-flex flex-column">
+                            <span>规格：{item.size}</span>
                         </div>
                     </div>
-                    <div className="item-detail__info d-flex flex-column">
-                        <span>规格：250mL*24</span>
-                    </div>
+                    <ActionsBtton
+                        increaseQty={increaseQty}
+                        decreaseQty={decreaseQty}
+                        inputQty={inputQty}
+                        qty={item.qty || 0}
+                    ></ActionsBtton>
                 </div>
-                <ActionsBtton></ActionsBtton>
-            </div>
-        </PopUp>
-    )
+            </PopUp>
+        )
+    } else {
+        return null
+    }
 }
 
-function ItemCard({ item, increaseQty, decreaseQty, inputQty }) {
+function ItemCard({ item, increaseQty, decreaseQty, inputQty, onClick }) {
     return (
         <div className="item-card-wraper col-3 ">
-            <div className="item d-flex flex-column align-items-center">
+            <div
+                className="item d-flex flex-column align-items-center"
+                onClick={onClick}
+            >
                 <ItemImg src={item.image.src}></ItemImg>
                 <ItemInfo
                     name={item.name}

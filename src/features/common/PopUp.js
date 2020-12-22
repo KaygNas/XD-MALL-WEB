@@ -1,11 +1,13 @@
 import { Cancel } from "../../images/Icons"
 
-export default function PopUp({ children, className }) {
+export default function PopUp({ children, className, onClose }) {
     return (
         <>
             <div className={"pop-up-wraper " + className}>
                 {children}
-                <Cancel className="pop-up__cancel"></Cancel>
+                <div onClick={onClose}>
+                    <Cancel className="pop-up__cancel"></Cancel>
+                </div>
             </div>
 
             <div className="pop-up-mask"></div>
