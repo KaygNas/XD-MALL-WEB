@@ -9,10 +9,21 @@ const cartSlice = createSlice({
     name: "cart",
     initialState: { status: "idle", items: [] },
     reducers: {
-        changeItemQty: (state, action) => {
+        insertItemIntoCart: (state, action) => {
+            debugger
+            const item = action.payload
+            state.items.push(item)
+        },
+        changeItemQtyInCart: (state, action) => {
             const { id, qty } = action.payload
             const item = selectItemById(state, id)
             item.qty = qty
+        },
+        removeItemFromCart: (state, action) => {
+            const id = action.payload
+            const index = state.items.findIndex((item) => item.id === id)
+            debugger
+            index > -1 && state.items.splice(index, 1)
         }
     },
     extraReducers: {
@@ -25,7 +36,11 @@ const cartSlice = createSlice({
 
 export default cartSlice.reducer
 
-export const { changeItemQty } = cartSlice.actions
+export const {
+    changeItemQtyInCart,
+    insertItemIntoCart,
+    removeItemFromCart
+} = cartSlice.actions
 
 export function selectItemById(state, id) {
     return state.items.find((item) => item.id === id)

@@ -1,29 +1,41 @@
 import PopUp from "../common/PopUp"
-import { changeItemQty as changeItemQtyInCart } from "../../app/cartSlice"
-import { useDispatch } from "react-redux"
+import {
+    changeItemQtyInCart,
+    insertItemIntoCart,
+    removeItemFromCart
+} from "../../app/cartSlice"
+import { useDispatch, useSelector } from "react-redux"
 
 export default function Content({ products, setProducts }) {
     const dispatch = useDispatch()
 
     function increaseItemQtyById(id) {
         const item = selectItemById(id)
-        item.qty = item.qty ? item.qty + 1 : 1
-        dispatch(changeItemQtyInCart({ id, qty: item.qty }))
-        setProducts([...products])
+        if (item.qty) {
+            item.qty += 1
+            dispatch(changeItemQtyInCart({ id, qty: item.qty }))
+        } else {
+            item.qty = 1
+            dispatch(insertItemIntoCart(item))
+        }
     }
 
     function decreaseItemQtyById(id) {
         const item = selectItemById(id)
-        item.qty = item.qty && item.qty > 0 ? item.qty - 1 : 0
-        dispatch(changeItemQtyInCart({ id, qty: item.qty }))
-        setProducts([...products])
+        if (item.qty && item.qty > 1) {
+            item.qty -= 1
+            dispatch(changeItemQtyInCart({ id, qty: item.qty }))
+        } else {
+            dispatch(removeItemFromCart(id))
+        }
     }
 
-    function changeItemQtyByIdAndNum(id, num) {
-        const item = selectItemById(id)
-        item.qty = num && num > 0 ? num : 0
-        dispatch(changeItemQtyInCart({ id, qty: item.qty }))
-        setProducts([...products])
+    function changeItemQtyByIdAndNum(id, qty) {
+        if (qty && qty > 0) {
+            dispatch(changeItemQtyInCart({ id, qty }))
+        } else {
+            dispatch(removeItemFromCart(id))
+        }
     }
 
     function selectItemById(id) {

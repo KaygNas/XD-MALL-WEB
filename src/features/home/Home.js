@@ -9,12 +9,17 @@ import { useSelector } from "react-redux"
 export default function Home() {
     const [banners, setBanners] = useState([])
     const [products, setProducts] = useState([])
+    const [isProductsFetched, setIsProductsFetched] = useState(false)
     const cartItems = useSelector((state) => state.cart.items)
 
     useEffect(() => {
         getBanners()
         getProducts()
     }, [])
+
+    useEffect(() => {
+        syncProductsQtyWith(products, cartItems)
+    }, [cartItems, isProductsFetched])
 
     async function getBanners() {
         const response = await getDataByApi("banners")
@@ -25,7 +30,22 @@ export default function Home() {
     async function getProducts() {
         const response = await getDataByApi("products")
         const products = response.data
-        setProducts(products)
+        syncProductsQtyWith(products, cartItems)
+        setIsProductsFetched(true)
+    }
+
+    function syncProductsQtyWith(products, cartItems) {
+        const upDatedProducts = products.map((product) => {
+            const match = cartItems.find((item) => item.id === product.id)
+            let qty
+            if (match) {
+                qty = match.qty
+            } else {
+                qty = 0
+            }
+            return { ...product, qty }
+        })
+        setProducts(upDatedProducts)
     }
 
     return (
