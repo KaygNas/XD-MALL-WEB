@@ -5,20 +5,17 @@ import {
     changeItemQty
 } from "../../app/cartSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { popUpItemContext } from "../../App"
 
 export default function Content({ products }) {
     const dispatch = useDispatch()
-    const [popUpItemId, setPopUpItemId] = useState(0)
+    const setPopUpItem = useContext(popUpItemContext)
+
     const [showOnlyInStock, setShowOnlyInStock] = useState(false)
     const shownProducts = products.filter(
         (product) => !showOnlyInStock || product.inStock === true
     )
-    const popUpItem = selectItemById(popUpItemId)
-
-    function selectItemById(id) {
-        return products.find((item) => item.id === id)
-    }
 
     function switchStateOnlyShowInStockTo() {
         setShowOnlyInStock((state) => !state)
@@ -59,26 +56,16 @@ export default function Content({ products }) {
                                 item.qty = qty
                                 dispatch(changeItemQty(item))
                             }}
-                            onClick={() => setPopUpItemId(item.id)}
+                            onClick={() => setPopUpItem(item)}
                         ></ItemCard>
                     ))}
                 </div>
             </div>
-            <ItemDetailPopUp
-                item={popUpItem}
-                increaseQty={() => dispatch(increaseItemQty(popUpItem))}
-                decreaseQty={() => dispatch(decreaseItemQty(popUpItem))}
-                inputQty={(qty) => {
-                    popUpItem.qty = qty
-                    dispatch(changeItemQty(popUpItem))
-                }}
-                onClose={() => setPopUpItemId(0)}
-            ></ItemDetailPopUp>
         </>
     )
 }
 
-function ItemDetailPopUp({
+export function ItemDetailPopUp({
     item,
     increaseQty,
     decreaseQty,

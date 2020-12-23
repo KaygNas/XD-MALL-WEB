@@ -11,7 +11,6 @@ const cartSlice = createSlice({
     reducers: {
         increaseItemQty: (state, action) => {
             const item = action.payload
-            debugger
             const { item: itemInCart, index } = selectItemById(state, item.id)
             if (index > -1) {
                 itemInCart.qty += 1
