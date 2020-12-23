@@ -26,6 +26,7 @@ export default function MyCarousel({ children }) {
     }
 
     function switchToPrev() {
+        autoSwitchWithDuration(3000)
         setCurIndex((curIndex) => {
             let index = curIndex > 0 ? curIndex - 1 : carouselItems.length - 1
             translateItems(index)
@@ -34,6 +35,7 @@ export default function MyCarousel({ children }) {
     }
 
     function switchToNext() {
+        autoSwitchWithDuration(3000)
         setCurIndex((curIndex) => {
             let index = curIndex < carouselItems.length - 1 ? curIndex + 1 : 0
             translateItems(index)
@@ -42,6 +44,7 @@ export default function MyCarousel({ children }) {
     }
 
     function switchToIndex(index) {
+        autoSwitchWithDuration(3000)
         setCurIndex(index)
         translateItems(index)
     }

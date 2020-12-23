@@ -8,6 +8,7 @@ import _ from "lodash"
 
 export default function Nav() {
     const [showCartList, setShowCartList] = useState(false)
+    const [showSearchBar, setShowSearchBar] = useState(false)
     const [searchResult, setSearchResult] = useState({
         status: "idle",
         data: []
@@ -24,6 +25,12 @@ export default function Nav() {
         switch (type) {
             case "cart":
                 setShowCartList((state) => !state)
+                break
+            case "search":
+                setShowSearchBar((state) => {
+                    state && clearInputAndResult()
+                    return !state
+                })
                 break
             default:
         }
@@ -48,7 +55,7 @@ export default function Nav() {
         []
     )
 
-    function clearSearchInput() {
+    function clearInputAndResult() {
         setSearchInput("")
         resetSearchResult()
     }
@@ -66,36 +73,57 @@ export default function Nav() {
                 <div className="nav-bar__favicon mr-auto">
                     <i className="nav-bar__icon bi bi-house"></i>祥达易购
                 </div>
-
-                <div className="nav-bar__search-wraper mx-auto">
-                    <div className="nav-bar__search">
-                        <i className="nav-bar__search__icon--start  bi bi-search"></i>
-                        <input
-                            className="nav-bar__search__input"
-                            placeholder="输入要找的商品"
-                            value={searchInput}
-                            onChange={(e) => onSearchInput(e.target.value)}
-                        ></input>
-                        <i
-                            className="nav-bar__search__icon--end bi bi-x"
-                            onClick={clearSearchInput}
-                        ></i>
-                    </div>
-                </div>
-
+                <SearchBar
+                    showSearchBar={showSearchBar}
+                    searchResult={searchResult}
+                    value={searchInput}
+                    onChange={(e) => onSearchInput(e.target.value)}
+                    onCancel={() => showElementByType("search")}
+                ></SearchBar>
                 <ActionButtons
                     showElementByType={showElementByType}
                 ></ActionButtons>
             </div>
 
-            {searchResult.status !== "idle" && (
-                <SearchResultList
-                    listItems={searchResult.data}
-                    status={searchResult.status}
-                ></SearchResultList>
-            )}
-            {showCartList && <CartDropList cart={cart}></CartDropList>}
+            <CartDropList
+                showCartList={showCartList}
+                cart={cart}
+            ></CartDropList>
         </nav>
+    )
+}
+
+function SearchBar({ showSearchBar, value, onChange, onCancel, searchResult }) {
+    return (
+        <div
+            className={`mx-auto nav-bar__search-wraper ${
+                showSearchBar ? "animation--show" : "animation--hide"
+            }`}
+        >
+            <div className="nav-bar__search">
+                <i className="nav-bar__search__icon--start  bi bi-search"></i>
+                <input
+                    className="nav-bar__search__input"
+                    placeholder="输入要找的商品"
+                    value={value}
+                    onChange={onChange}
+                ></input>
+                <i
+                    className="nav-bar__search__icon--end bi bi-x"
+                    onClick={onCancel}
+                ></i>
+            </div>
+
+            <SearchResultList
+                className={
+                    searchResult.status !== "idle"
+                        ? "animation--show"
+                        : "animation--hide"
+                }
+                listItems={searchResult.data}
+                status={searchResult.status}
+            ></SearchResultList>
+        </div>
     )
 }
 

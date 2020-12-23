@@ -3,13 +3,17 @@ import ActionsBar from "../common/ActionsBar"
 import "./nav.css"
 import { useNavTo } from "../../app/hooks"
 
-export default function CartDropList({ cart }) {
+export default function CartDropList({ cart, showCartList }) {
     const navTo = useNavTo()
 
     return (
-        <div className="cart-drop-list-wraper drop-list">
+        <div
+            className={`cart-drop-list-wraper drop-list ${
+                showCartList ? "animation--show" : "animation--hide"
+            }`}
+        >
             <div className="cart-drop-list">
-                {renderProductsListFromArray(cart && cart.items)}
+                <ProductsList items={cart && cart.items}></ProductsList>
             </div>
             <ActionsBar
                 btnText="去下单"
@@ -17,14 +21,5 @@ export default function CartDropList({ cart }) {
                 total={cart ? cart.total : 0}
             ></ActionsBar>
         </div>
-    )
-}
-
-export function renderProductsListFromArray(items) {
-    return (
-        items &&
-        items.map((item) => (
-            <ProductsList key={item.id} item={item}></ProductsList>
-        ))
     )
 }

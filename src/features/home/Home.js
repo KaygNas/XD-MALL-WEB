@@ -37,8 +37,8 @@ export default function Home() {
     function syncProductsQtyWith(products, cartItems) {
         const upDatedProducts = products.map((product) => {
             const match = cartItems.find((item) => item.id === product.id)
-            let qty = match ? match.qty : 0
-            return { ...product, qty }
+            const updatedProduct = match ? match : { ...product, qty: 0 }
+            return updatedProduct
         })
         setProducts(upDatedProducts)
     }

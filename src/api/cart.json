@@ -15,7 +15,8 @@
             },
             "qty": 2,
             "subTotal": 51,
-            "total": 48
+            "total": 48,
+            "inStock": true
 
         }, {
             "id": 2,
@@ -28,7 +29,8 @@
             },
             "qty": 1,
             "subTotal": 26.5,
-            "total": 22
+            "total": 22,
+            "inStock": true
         }, {
             "id": 3,
             "name": "产品3",
@@ -40,7 +42,8 @@
             },
             "qty": 2,
             "subTotal": 57,
-            "total": 52
+            "total": 52,
+            "inStock": true
         }, {
             "id": 4,
             "name": "产品4",
@@ -52,7 +55,8 @@
             },
             "qty": 10,
             "subTotal": 255,
-            "total": 240
+            "total": 240,
+            "inStock": true
         }, {
             "id": 5,
             "name": "产品5",
@@ -64,7 +68,8 @@
             },
             "qty": 10,
             "subTotal": 405,
-            "total": 220
+            "total": 220,
+            "inStock": true
         }, {
             "id": 23,
             "name": "产品23",
@@ -76,7 +81,8 @@
             },
             "qty": 10,
             "subTotal": 285,
-            "total": 260
+            "total": 260,
+            "inStock": true
         }, {
             "id": 24,
             "name": "产品24",
@@ -88,7 +94,8 @@
             },
             "qty": 10,
             "subTotal": 255,
-            "total": 240
+            "total": 240,
+            "inStock": true
         }, {
             "id": 25,
             "name": "产品25",
@@ -100,7 +107,8 @@
             },
             "qty": 10,
             "subTotal": 405,
-            "total": 220
+            "total": 220,
+            "inStock": true
         }]
     }
 }

@@ -5,7 +5,7 @@ import {
     changeItemQty
 } from "../../app/cartSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { popUpItemContext } from "../../App"
 
 export default function Content({ products }) {
@@ -66,44 +66,60 @@ export default function Content({ products }) {
 }
 
 export function ItemDetailPopUp({
-    item,
+    item: popUpItem,
     increaseQty,
     decreaseQty,
     inputQty,
     onClose
 }) {
-    if (item) {
+    const cartItems = useSelector((state) => state.cart.items)
+    const setPopUpItem = useContext(popUpItemContext)
+    const popUpItemId = popUpItem ? popUpItem.id : 0
+
+    useEffect(() => {
+        syncPopUpItemWith(cartItems)
+    }, [cartItems, popUpItemId])
+
+    function syncPopUpItemWith(items) {
+        if (popUpItem) {
+            const match = items.find((item) => item.id === popUpItem.id)
+            const updatedItem = match ? match : { ...popUpItem, qty: 0 }
+            setPopUpItem(updatedItem)
+        }
+    }
+
+    if (popUpItem) {
         return (
             <PopUp onClose={onClose}>
                 <div className="item-detail-wraper d-flex flex-column align-items-center">
                     <div className="item-detail border-bottom">
                         <ItemImg
                             className="item-detail__img"
-                            src={item.image.src}
+                            src={popUpItem.image.src}
                         ></ItemImg>
                         <div className="item-detail__summary border-bottom">
                             <span className="item-detail__summary__name">
-                                {item.name}
+                                {popUpItem.name}
                             </span>
                             <div className="item-detail__summary__price">
                                 <span className="item-detail__summary__price--on-sale item__info__price--on-sale">
-                                    {item.salePrice}
+                                    {popUpItem.salePrice}
                                 </span>
                                 <span className="item-detail__summary__price--regular item__info__price--regular">
-                                    {item.regularPrice}
+                                    {popUpItem.regularPrice}
                                 </span>
                             </div>
                         </div>
                         <div className="item-detail__info d-flex flex-column">
-                            <span>规格：{item.size}</span>
+                            <span>规格：{popUpItem.size}</span>
                         </div>
                     </div>
                     <ActionsBtton
                         increaseQty={increaseQty}
                         decreaseQty={decreaseQty}
                         inputQty={inputQty}
-                        qty={item.qty || 0}
-                        inStock={item.inStock}
+                        qty={popUpItem.qty || 0}
+                        inStock={popUpItem.inStock}
                     ></ActionsBtton>
                 </div>
             </PopUp>

@@ -17,20 +17,7 @@ export const popUpItemContext = React.createContext()
 
 function App() {
     const [popUpItem, setPopUpItem] = useState(null)
-    const cartItems = useSelector((state) => state.cart.items)
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        syncPopUpItemWith(cartItems)
-    }, [cartItems])
-
-    function syncPopUpItemWith(items) {
-        if (popUpItem) {
-            const match = items.find((item) => item.id === popUpItem.id)
-            const qty = match ? match.qty : 0
-            setPopUpItem({ ...popUpItem, qty })
-        }
-    }
 
     return (
         <popUpItemContext.Provider value={setPopUpItem}>
