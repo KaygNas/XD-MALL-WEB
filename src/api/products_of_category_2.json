@@ -1,74 +1,57 @@
 {
     "success": true,
     "data": {
-        "subTotal": 223,
-        "total": 201.5,
-        "itemsQty": 5,
+        "id": 2,
+        "name": "分类2",
         "items": [{
-            "id": 1,
-            "name": "产品1",
-            "size": "250mL*24",
-            "regularPrice": 25.5,
-            "salePrice": 24,
-            "image": {
-                "src": "http://www.51cie.net.cn/images/banner1.png"
-            },
-            "qty": 2,
-            "subTotal": 51,
-            "total": 48,
-            "inStock": false
-
-        }, {
-            "id": 2,
-            "name": "产品2",
-            "size": "500mL*24",
-            "regularPrice": 26.5,
-            "salePrice": 22,
-            "image": {
-                "src": "http://www.51cie.net.cn/images/banner2.png"
-            },
-            "qty": 1,
-            "subTotal": 26.5,
-            "total": 22,
-            "inStock": false
-        }, {
-            "id": 3,
-            "name": "产品3",
+            "id": 13,
+            "name": "产品13",
             "size": "600mL*24",
             "regularPrice": 28.5,
             "salePrice": 26,
             "image": {
                 "src": "http://www.51cie.net.cn/images/banner3.png"
             },
-            "qty": 2,
-            "subTotal": 57,
-            "total": 52,
-            "inStock": false
+            "inStock": true
         }, {
-            "id": 4,
-            "name": "产品4",
+            "id": 14,
+            "name": "产品14",
             "size": "1L*12",
             "regularPrice": 25.5,
             "salePrice": 24,
             "image": {
                 "src": "http://www.51cie.net.cn/images/banner4.png"
             },
-            "qty": 10,
-            "subTotal": 255,
-            "total": 240,
             "inStock": true
         }, {
-            "id": 5,
-            "name": "产品5",
+            "id": 15,
+            "name": "产品15",
             "size": "2L*6",
             "regularPrice": 40.5,
             "salePrice": 22,
             "image": {
                 "src": "http://www.51cie.net.cn/images/banner5.png"
             },
-            "qty": 10,
-            "subTotal": 405,
-            "total": 220,
+            "inStock": true
+        }, {
+            "id": 21,
+            "name": "产品21",
+            "size": "250mL*24",
+            "regularPrice": 25.5,
+            "salePrice": 24,
+            "image": {
+                "src": "http://www.51cie.net.cn/images/banner1.png"
+            },
+            "inStock": true
+        }, {
+            "id": 22,
+            "name": "产品22",
+            "size": "500mL*24",
+            "regularPrice": 26.5,
+            "salePrice": 22,
+            "image": {
+                "src": "http://www.51cie.net.cn/images/banner2.png"
+            },
             "inStock": true
         }, {
             "id": 23,
@@ -79,9 +62,6 @@
             "image": {
                 "src": "http://www.51cie.net.cn/images/banner3.png"
             },
-            "qty": 10,
-            "subTotal": 285,
-            "total": 260,
             "inStock": true
         }, {
             "id": 24,
@@ -92,9 +72,6 @@
             "image": {
                 "src": "http://www.51cie.net.cn/images/banner4.png"
             },
-            "qty": 10,
-            "subTotal": 255,
-            "total": 240,
             "inStock": true
         }, {
             "id": 25,
@@ -105,9 +82,6 @@
             "image": {
                 "src": "http://www.51cie.net.cn/images/banner5.png"
             },
-            "qty": 10,
-            "subTotal": 405,
-            "total": 220,
             "inStock": true
         }]
     }

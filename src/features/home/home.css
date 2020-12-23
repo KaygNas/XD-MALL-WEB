@@ -121,6 +121,19 @@
     margin-top: 20px;
 
     overflow: hidden;
+    text-align: center;
+}
+
+.categories {
+    transition: transform linear 0.12s;
+}
+
+.categories a,
+.categories a:hover,
+.categories a:visited,
+.categories a:active {
+    color: inherit;
+    text-decoration: inherit;
 }
 
 .category-wraper {
@@ -129,6 +142,10 @@
 
 .category-wraper:hover {
     background-color: var(--grey);
+}
+
+.category-wraper--current {
+    border-bottom: var(--black) 6px solid;
 }
 
 .category__icon {
@@ -151,6 +168,7 @@
 
     position: absolute;
     top: 0;
+    z-index: 1000;
 }
 
 .categories-controler__prev {

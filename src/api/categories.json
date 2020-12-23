@@ -1,0 +1,109 @@
+{
+    "success": true,
+    "data": [{
+        "id": 1,
+        "name": "分类1",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner1.png",
+            "altMsg": "分类1"
+        }
+    }, {
+        "id": 2,
+        "name": "分类2",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner1.png",
+            "altMsg": "分类2"
+        }
+    }, {
+        "id": 3,
+        "name": "分类3",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner3.png",
+            "altMsg": "分类3"
+        }
+    }, {
+        "id": 4,
+        "name": "分类4",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner5.png",
+            "altMsg": "分类4"
+        }
+    }, {
+        "id": 5,
+        "name": "分类5",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner5.png",
+            "altMsg": "分类5"
+        }
+    }, {
+        "id": 11,
+        "name": "分类11",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner1.png",
+            "altMsg": "分类11"
+        }
+    }, {
+        "id": 12,
+        "name": "分类12",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner1.png",
+            "altMsg": "分类12"
+        }
+    }, {
+        "id": 13,
+        "name": "分类13",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner3.png",
+            "altMsg": "分类13"
+        }
+    }, {
+        "id": 14,
+        "name": "分类14",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner5.png",
+            "altMsg": "分类14"
+        }
+    }, {
+        "id": 15,
+        "name": "分类15",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner5.png",
+            "altMsg": "分类15"
+        }
+    }, {
+        "id": 21,
+        "name": "分类21",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner1.png",
+            "altMsg": "分类21"
+        }
+    }, {
+        "id": 22,
+        "name": "分类22",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner1.png",
+            "altMsg": "分类22"
+        }
+    }, {
+        "id": 23,
+        "name": "分类23",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner3.png",
+            "altMsg": "分类23"
+        }
+    }, {
+        "id": 24,
+        "name": "分类24",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner5.png",
+            "altMsg": "分类24"
+        }
+    }, {
+        "id": 25,
+        "name": "分类25",
+        "image": {
+            "src": "http://www.51cie.net.cn/images/banner5.png",
+            "altMsg": "分类25"
+        }
+    }]
+}

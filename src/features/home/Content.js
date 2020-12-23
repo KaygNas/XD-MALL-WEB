@@ -7,25 +7,64 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { useContext, useEffect, useState } from "react"
 import { popUpItemContext } from "../../App"
+import { getDataByApi } from "../../app/dataRequest"
+import { useParams } from "react-router-dom"
 
-export default function Content({ products }) {
-    const dispatch = useDispatch()
-    const setPopUpItem = useContext(popUpItemContext)
-
+export default function Content() {
+    const [products, setProducts] = useState([])
+    const [curCategoryName, setCurCategoryName] = useState("")
+    const [isProductsFetched, setIsProductsFetched] = useState(false)
     const [showOnlyInStock, setShowOnlyInStock] = useState(false)
+    let { id: curCategoryId } = useParams()
+    curCategoryId = Number(curCategoryId)
+    const cartItems = useSelector((state) => state.cart.items)
+    const setPopUpItem = useContext(popUpItemContext)
+    const dispatch = useDispatch()
     const shownProducts = products.filter(
         (product) => !showOnlyInStock || product.inStock === true
     )
 
+    useEffect(() => {
+        getData(curCategoryId)
+    }, [curCategoryId])
+
+    useEffect(() => {
+        syncProductsQtyWith(products, cartItems)
+    }, [cartItems, isProductsFetched])
+
+    async function getData(categoryId) {
+        const response = await getDataByApi(`products/category/${categoryId}`)
+        if (response.success) {
+            const products = response.data.items
+            syncProductsQtyWith(products, cartItems)
+            setCurCategoryName(response.data.name)
+            setIsProductsFetched(true)
+        } else {
+            setCurCategoryName("Oops!没有找着数据")
+            syncProductsQtyWith([], cartItems)
+        }
+    }
+
     function switchStateOnlyShowInStockTo() {
         setShowOnlyInStock((state) => !state)
+    }
+
+    function syncProductsQtyWith(products, cartItems) {
+        const upDatedProducts = products.map((product) => {
+            const match = cartItems.find((item) => item.id === product.id)
+            const updatedProduct = match ? match : { ...product, qty: 0 }
+            return updatedProduct
+        })
+        setProducts(upDatedProducts)
     }
 
     return (
         <>
             <div className="content-wraper d-flex flex-column">
                 <div className="content__header d-flex">
-                    <h2 className="content__header-title mx-auto">特价商品</h2>
+                    <h2 className="content__header-title mx-auto">
+                        {curCategoryName}
+                    </h2>
                     <div
                         className="content__header-filter"
                         onClick={switchStateOnlyShowInStockTo}
@@ -34,11 +73,12 @@ export default function Content({ products }) {
                             className="content__header-filter__input"
                             type="checkbox"
                             name="checkbox__only-in-stock"
+                            readOnly={true}
                             checked={showOnlyInStock}
                         ></input>
                         <label
                             className="content__header-filter__label"
-                            for="checkbox__only-in-stock"
+                            htmlFor="checkbox__only-in-stock"
                         >
                             只看有货
                         </label>
@@ -133,13 +173,15 @@ function ItemCard({ item, increaseQty, decreaseQty, inputQty, onClick }) {
     return (
         <div className="item-card-wraper col-xl-3 col-lg-4 col-md-6 ">
             <div className="item d-flex flex-column align-items-center">
-                <ItemImg src={item.image.src} onClick={onClick}></ItemImg>
-                <ItemInfo
-                    name={item.name}
-                    size={item.size}
-                    regularPrice={item.regularPrice}
-                    salePrice={item.salePrice}
-                ></ItemInfo>
+                <div style={{ width: "100%" }} onClick={onClick}>
+                    <ItemImg src={item.image.src}></ItemImg>
+                    <ItemInfo
+                        name={item.name}
+                        size={item.size}
+                        regularPrice={item.regularPrice}
+                        salePrice={item.salePrice}
+                    ></ItemInfo>
+                </div>
                 <ActionsBtton
                     increaseQty={increaseQty}
                     decreaseQty={decreaseQty}

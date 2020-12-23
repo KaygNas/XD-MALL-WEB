@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useState } from "react"
 import Nav from "./features/nav/Nav"
 import Home from "./features/home/Home"
 import Settle from "./features/settle/Settle"
@@ -11,7 +11,7 @@ import {
     decreaseItemQty,
     changeItemQty
 } from "./app/cartSlice"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 export const popUpItemContext = React.createContext()
 
@@ -25,7 +25,7 @@ function App() {
                 <Nav></Nav>
 
                 <Switch>
-                    <Route exact path="/home">
+                    <Route path="/home">
                         <Home></Home>
                     </Route>
                     <Route exact path="/settle">

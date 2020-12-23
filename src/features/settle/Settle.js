@@ -1,5 +1,4 @@
 import ActionsBar from "../common/ActionsBar"
-import { renderProductsListFromArray } from "../nav/CartDropList"
 import "./settle.css"
 import { useEffect, useState } from "react"
 import { useNavTo } from "../../app/hooks"
@@ -13,6 +12,7 @@ export default function Settle() {
     const [address, setAddress] = useState({ status: "idle", data: {} })
     const [isSubmitting, setIsSubmitting] = useState(false)
     const cart = useSelector((state) => state.cart)
+    const listItems = cart.items.filter((item) => item.inStock)
 
     const navTo = useNavTo()
 
@@ -49,7 +49,6 @@ export default function Settle() {
         setIsSubmitting(true)
         setTimeout(() => {
             navTo("/settle/succeed")
-            setIsSubmitting(false)
         }, 1000)
     }
 
@@ -71,7 +70,7 @@ export default function Settle() {
                 )}
             </div>
             <div className="settle__list-wraper">
-                <ProductsList items={cart.items}></ProductsList>
+                <ProductsList items={listItems}></ProductsList>
                 <ActionsBar
                     total={cart.total || 0}
                     btnText="提交订单"

@@ -102,11 +102,16 @@
     z-index: 2000;
 }
 
-.produts-list__item__qty {
+.produts-list__item__qty,
+.produts-list__item__out-of-stock {
     font-size: 1.2rem;
     color: var(--deep-grey);
     text-align: right;
     width: 60px;
+}
+
+.produts-list__item__out-of-stock {
+    font-size: 1rem;
 }
 
 .products-list {

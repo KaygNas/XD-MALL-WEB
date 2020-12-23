@@ -1,5 +1,4 @@
 import { popUpItemContext } from "../../App"
-import blankImg from "../../images/blank_img.png"
 import { ItemInfoDetail, ItemInfoPrice } from "../home/Content"
 import { useContext } from "react"
 
@@ -28,11 +27,16 @@ export default function ProductsList({ items = [] }) {
                         regularPrice={item.regularPrice}
                         salePrice={item.salePrice}
                     ></ItemInfoPrice>
-                    {item.qty && (
-                        <span className="produts-list__item__qty">
-                            x{item.qty}
-                        </span>
-                    )}
+                    {item.qty &&
+                        (item.inStock ? (
+                            <span className="produts-list__item__qty">
+                                x{item.qty}
+                            </span>
+                        ) : (
+                            <span className="produts-list__item__out-of-stock">
+                                缺货
+                            </span>
+                        ))}
                 </li>
             ))}
         </ul>

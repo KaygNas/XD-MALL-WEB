@@ -107,6 +107,7 @@ function SearchBar({ showSearchBar, value, onChange, onCancel, searchResult }) {
                     placeholder="输入要找的商品"
                     value={value}
                     onChange={onChange}
+                    autoFocus={true}
                 ></input>
                 <i
                     className="nav-bar__search__icon--end bi bi-x"
