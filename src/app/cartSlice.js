@@ -1,55 +1,88 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import {
+    createSlice,
+    createAsyncThunk,
+    createEntityAdapter
+} from "@reduxjs/toolkit"
 import { getDataByApi } from "./dataRequest"
 
 export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
     return (await getDataByApi("cart")).data
 })
 
+const cartItemsAdapter = createEntityAdapter()
+
 const cartSlice = createSlice({
     name: "cart",
-    initialState: { status: "idle", items: [] },
+    initialState: { status: "idle", items: cartItemsAdapter.getInitialState() },
     reducers: {
         increaseItemQty: (state, action) => {
             const item = action.payload
-            const { item: itemInCart, index } = selectItemById(state, item.id)
-            if (index > -1) {
-                itemInCart.qty += 1
+            const cartItems = state.items
+            const itemInCart = selectItemById(cartItems, item.id)
+            if (itemInCart) {
+                const update = {
+                    id: itemInCart.id,
+                    changes: {
+                        qty: itemInCart.qty + 1
+                    }
+                }
+                cartItemsAdapter.updateOne(cartItems, update)
             } else {
-                item.qty = 1
-                state.items.push(item)
+                cartItemsAdapter.addOne(cartItems, { ...item, qty: 1 })
             }
-            state.total = calcItemsTotal(state.items)
+            state.total = calcItemsTotal(Object.values(state.items.entities))
         },
+
         decreaseItemQty: (state, action) => {
             const item = action.payload
-            const { item: itemInCart, index } = selectItemById(state, item.id)
-            if (index > -1 && itemInCart.qty > 1) {
-                itemInCart.qty -= 1
+            const cartItems = state.items
+            const itemInCart = selectItemById(cartItems, item.id)
+
+            if (itemInCart && itemInCart.qty > 1) {
+                const update = {
+                    id: itemInCart.id,
+                    changes: {
+                        qty: itemInCart.qty - 1
+                    }
+                }
+                cartItemsAdapter.updateOne(cartItems, update)
             } else {
-                state.items.splice(index, 1)
+                cartItemsAdapter.removeOne(cartItems, itemInCart.id)
             }
-            state.total = calcItemsTotal(state.items)
+
+            state.total = calcItemsTotal(Object.values(state.items.entities))
         },
+
         changeItemQty: (state, action) => {
             const item = action.payload
-            const { item: itemInCart, index } = selectItemById(state, item.id)
+            const cartItems = state.items
+            const itemInCart = selectItemById(cartItems, item.id)
+
             if (item.qty > 0) {
-                itemInCart.qty = item.qty
+                const update = {
+                    id: itemInCart.id,
+                    changes: {
+                        qty: item.qty
+                    }
+                }
+                cartItemsAdapter.updateOne(cartItems, update)
             } else {
-                state.items.splice(index, 1)
+                cartItemsAdapter.removeOne(itemInCart.id)
             }
-            state.total = calcItemsTotal(state.items)
+
+            state.total = calcItemsTotal(Object.values(state.items.entities))
         }
     },
+
     extraReducers: {
         [fetchCart.fulfilled]: (state, action) => {
-            action.payload.status = "succeeded"
-            return action.payload
+            cartItemsAdapter.addMany(state.items, action.payload.items)
+            state.status = "succeeded"
+            state.total = action.payload.total
+            state.subTotal = action.payload.subTotal
         }
     }
 })
-
-export default cartSlice.reducer
 
 export const {
     increaseItemQty,
@@ -57,12 +90,10 @@ export const {
     changeItemQty
 } = cartSlice.actions
 
-export function selectItemById(state, id) {
-    const item = state.items.find((item) => item.id === id)
-    const index = state.items.indexOf(item)
-    return { item, index }
-}
+export const { selectById: selectItemById } = cartItemsAdapter.getSelectors()
 
 function calcItemsTotal(items) {
     return items.reduce((acc, cur) => cur.salePrice * cur.qty + acc, 0)
 }
+
+export default cartSlice.reducer

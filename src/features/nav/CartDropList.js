@@ -5,6 +5,7 @@ import { useNavTo } from "../../app/hooks"
 
 export default function CartDropList({ cart, showCartList }) {
     const navTo = useNavTo()
+    const listItems = Object.values(cart.items.entities)
 
     return (
         <div
@@ -13,7 +14,7 @@ export default function CartDropList({ cart, showCartList }) {
             }`}
         >
             <div className="cart-drop-list">
-                <ProductsList items={cart && cart.items}></ProductsList>
+                <ProductsList items={listItems}></ProductsList>
             </div>
             <ActionsBar
                 btnText="去下单"

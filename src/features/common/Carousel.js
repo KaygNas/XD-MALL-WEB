@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react"
 import { ArrowLeft, ArrowRight } from "../../images/Icons"
 
+const AUTO_PALY_DELAY = 3000
+
 export default function MyCarousel({ children }) {
     let carouselItems = checkAndReturnCarouselItems(children)
     const [curIndex, setCurIndex] = useState(0)
@@ -11,22 +13,22 @@ export default function MyCarousel({ children }) {
     const intervalId = useRef(null)
 
     useEffect(() => {
-        autoSwitchWithDuration(3000)
+        autoSwitchWithDelay(AUTO_PALY_DELAY)
         return () => clearInterval(intervalId.current)
     }, [carouselItems])
 
-    function autoSwitchWithDuration(duration) {
+    function autoSwitchWithDelay(duration) {
         if (intervalId.current) {
             clearInterval(intervalId.current)
         }
 
         intervalId.current = setInterval(() => {
-            switchToNext()
+            toNext()
         }, duration)
     }
 
     function switchToPrev() {
-        autoSwitchWithDuration(3000)
+        autoSwitchWithDelay(AUTO_PALY_DELAY)
         setCurIndex((curIndex) => {
             let index = curIndex > 0 ? curIndex - 1 : carouselItems.length - 1
             translateItems(index)
@@ -35,7 +37,11 @@ export default function MyCarousel({ children }) {
     }
 
     function switchToNext() {
-        autoSwitchWithDuration(3000)
+        autoSwitchWithDelay(AUTO_PALY_DELAY)
+        toNext()
+    }
+
+    function toNext() {
         setCurIndex((curIndex) => {
             let index = curIndex < carouselItems.length - 1 ? curIndex + 1 : 0
             translateItems(index)
@@ -44,7 +50,7 @@ export default function MyCarousel({ children }) {
     }
 
     function switchToIndex(index) {
-        autoSwitchWithDuration(3000)
+        autoSwitchWithDelay(AUTO_PALY_DELAY)
         setCurIndex(index)
         translateItems(index)
     }

@@ -42,8 +42,7 @@ function App() {
                     increaseQty={() => dispatch(increaseItemQty(popUpItem))}
                     decreaseQty={() => dispatch(decreaseItemQty(popUpItem))}
                     inputQty={(qty) => {
-                        popUpItem.qty = qty
-                        dispatch(changeItemQty(popUpItem))
+                        dispatch(changeItemQty({ ...popUpItem, qty }))
                     }}
                     onClose={() => setPopUpItem(null)}
                 ></ItemDetailPopUp>

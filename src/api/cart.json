@@ -3,7 +3,6 @@
     "data": {
         "subTotal": 223,
         "total": 201.5,
-        "itemsQty": 5,
         "items": [{
             "id": 1,
             "name": "产品1",

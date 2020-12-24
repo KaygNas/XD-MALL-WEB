@@ -2,13 +2,23 @@ import PopUp from "../common/PopUp"
 import {
     increaseItemQty,
     decreaseItemQty,
-    changeItemQty
+    changeItemQty,
+    selectItemById
 } from "../../app/cartSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { popUpItemContext } from "../../App"
 import { getDataByApi } from "../../app/dataRequest"
 import { useParams } from "react-router-dom"
+import { createSelector } from "@reduxjs/toolkit"
+
+const selectShownProducts = createSelector(
+    [(showOnlyInStock) => showOnlyInStock, (_, products) => products],
+    (showOnlyInStock, products) =>
+        products.filter(
+            (product) => !showOnlyInStock || product.inStock === true
+        )
+)
 
 export default function Content() {
     const [products, setProducts] = useState([])
@@ -20,9 +30,7 @@ export default function Content() {
     const cartItems = useSelector((state) => state.cart.items)
     const setPopUpItem = useContext(popUpItemContext)
     const dispatch = useDispatch()
-    const shownProducts = products.filter(
-        (product) => !showOnlyInStock || product.inStock === true
-    )
+    const shownProducts = selectShownProducts(showOnlyInStock, products)
 
     useEffect(() => {
         getData(curCategoryId)
@@ -51,7 +59,7 @@ export default function Content() {
 
     function syncProductsQtyWith(products, cartItems) {
         const upDatedProducts = products.map((product) => {
-            const match = cartItems.find((item) => item.id === product.id)
+            const match = selectItemById(cartItems, product.id)
             const updatedProduct = match ? match : { ...product, qty: 0 }
             return updatedProduct
         })
@@ -93,8 +101,7 @@ export default function Content() {
                             increaseQty={() => dispatch(increaseItemQty(item))}
                             decreaseQty={() => dispatch(decreaseItemQty(item))}
                             inputQty={(qty) => {
-                                item.qty = qty
-                                dispatch(changeItemQty(item))
+                                dispatch(changeItemQty({ ...item, qty }))
                             }}
                             onClick={() => setPopUpItem(item)}
                         ></ItemCard>
@@ -122,7 +129,7 @@ export function ItemDetailPopUp({
 
     function syncPopUpItemWith(items) {
         if (popUpItem) {
-            const match = items.find((item) => item.id === popUpItem.id)
+            const match = selectItemById(items, popUpItem.id)
             const updatedItem = match ? match : { ...popUpItem, qty: 0 }
             setPopUpItem(updatedItem)
         }
@@ -169,30 +176,32 @@ export function ItemDetailPopUp({
     }
 }
 
-function ItemCard({ item, increaseQty, decreaseQty, inputQty, onClick }) {
-    return (
-        <div className="item-card-wraper col-xl-3 col-lg-4 col-md-6 ">
-            <div className="item d-flex flex-column align-items-center">
-                <div style={{ width: "100%" }} onClick={onClick}>
-                    <ItemImg src={item.image.src}></ItemImg>
-                    <ItemInfo
-                        name={item.name}
-                        size={item.size}
-                        regularPrice={item.regularPrice}
-                        salePrice={item.salePrice}
-                    ></ItemInfo>
+let ItemCard = React.memo(
+    ({ item, increaseQty, decreaseQty, inputQty, onClick }) => {
+        return (
+            <div className="item-card-wraper col-xl-3 col-lg-4 col-md-6 ">
+                <div className="item d-flex flex-column align-items-center">
+                    <div style={{ width: "100%" }} onClick={onClick}>
+                        <ItemImg src={item.image.src}></ItemImg>
+                        <ItemInfo
+                            name={item.name}
+                            size={item.size}
+                            regularPrice={item.regularPrice}
+                            salePrice={item.salePrice}
+                        ></ItemInfo>
+                    </div>
+                    <ActionsBtton
+                        increaseQty={increaseQty}
+                        decreaseQty={decreaseQty}
+                        inputQty={inputQty}
+                        qty={item.qty || 0}
+                        inStock={item.inStock}
+                    ></ActionsBtton>
                 </div>
-                <ActionsBtton
-                    increaseQty={increaseQty}
-                    decreaseQty={decreaseQty}
-                    inputQty={inputQty}
-                    qty={item.qty || 0}
-                    inStock={item.inStock}
-                ></ActionsBtton>
             </div>
-        </div>
-    )
-}
+        )
+    }
+)
 
 function ItemImg({ className = "", src, onClick }) {
     return (
