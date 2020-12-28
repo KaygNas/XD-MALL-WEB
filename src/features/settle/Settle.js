@@ -6,13 +6,14 @@ import ProductsList from "../common/ProductsList"
 import { useSelector } from "react-redux"
 import { getDataByApi, postDataByApi } from "../../app/dataRequest"
 import { SpinArrow } from "../common/Animation"
+import { selectAllItems } from "../../app/cartSlice"
 
 export default function Settle() {
     const [isEditing, setIsEditing] = useState(false)
     const [address, setAddress] = useState({ status: "idle", data: {} })
     const [isSubmitting, setIsSubmitting] = useState(false)
     const cart = useSelector((state) => state.cart)
-    const listItems = cart.items.filter((item) => item.inStock)
+    const listItems = selectAllItems(cart).filter((item) => item.inStock)
 
     const navTo = useNavTo()
 

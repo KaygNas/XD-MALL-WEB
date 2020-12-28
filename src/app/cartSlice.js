@@ -9,7 +9,7 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
     return (await getDataByApi("cart")).data
 })
 
-const cartItemsAdapter = createEntityAdapter()
+export const cartItemsAdapter = createEntityAdapter()
 
 const cartSlice = createSlice({
     name: "cart",
@@ -30,7 +30,7 @@ const cartSlice = createSlice({
             } else {
                 cartItemsAdapter.addOne(cartItems, { ...item, qty: 1 })
             }
-            state.total = calcItemsTotal(Object.values(state.items.entities))
+            state.total = calcItemsTotal(selectAllItems(state))
         },
 
         decreaseItemQty: (state, action) => {
@@ -50,7 +50,7 @@ const cartSlice = createSlice({
                 cartItemsAdapter.removeOne(cartItems, itemInCart.id)
             }
 
-            state.total = calcItemsTotal(Object.values(state.items.entities))
+            state.total = calcItemsTotal(selectAllItems(state))
         },
 
         changeItemQty: (state, action) => {
@@ -70,7 +70,7 @@ const cartSlice = createSlice({
                 cartItemsAdapter.removeOne(itemInCart.id)
             }
 
-            state.total = calcItemsTotal(Object.values(state.items.entities))
+            state.total = calcItemsTotal(selectAllItems(state))
         }
     },
 
@@ -92,8 +92,12 @@ export const {
 
 export const { selectById: selectItemById } = cartItemsAdapter.getSelectors()
 
-function calcItemsTotal(items) {
-    return items.reduce((acc, cur) => cur.salePrice * cur.qty + acc, 0)
+export function selectAllItems(state) {
+    return Object.values(state.items.entities)
 }
 
 export default cartSlice.reducer
+
+function calcItemsTotal(items) {
+    return items.reduce((acc, cur) => cur.salePrice * cur.qty + acc, 0)
+}
