@@ -7,6 +7,7 @@ import { useSelector } from "react-redux"
 import { getDataByApi, postDataByApi } from "../../app/dataRequest"
 import { SpinArrow } from "../common/Animation"
 import { selectAllItems } from "../../app/cartSlice"
+import { useForm } from "react-hook-form"
 
 export default function Settle() {
     const [isEditing, setIsEditing] = useState(false)
@@ -26,14 +27,9 @@ export default function Settle() {
         setAddress({ status: "succeeded", data: result.data })
     }
 
-    async function saveAddress(e) {
-        e.preventDefault()
+    async function saveAddress(formData) {
         setAddress({ ...address, status: "loading" })
-        const form = new FormData(e.target)
-        const result = await postDataByApi(
-            "updateAddress",
-            Object.fromEntries(form.entries())
-        )
+        const result = await postDataByApi("updateAddress", formData)
         setIsEditing(false)
         setAddress({ status: "succeeded", data: result.data })
     }
@@ -118,48 +114,86 @@ function AddressDisplay({ address, onStartEdit }) {
 
 function AddressEdit({ address, onSave, onCancel }) {
     const [tempAddress, setTempAddress] = useState(address.data)
+    const { register, handleSubmit, watch, errors } = useForm({
+        criteriaMode: "all"
+    })
     function onEditAddress(type, input) {
         setTempAddress({ ...tempAddress, [type]: input })
     }
     const isLoading = address.status === "loading"
+
+    console.log("errors", errors)
 
     return (
         <>
             <form
                 id="address"
                 className="settle__address--edit"
-                onSubmit={onSave}
+                onSubmit={handleSubmit(onSave)}
             >
                 <div className="input-group mb-2 row">
                     <label className="col-3" htmlFor="address_name">
                         店名：
                     </label>
                     <input
+                        ref={register({
+                            required: {
+                                value: true,
+                                message: "name is needed"
+                            }
+                        })}
                         type="text"
                         name="name"
                         className="form-control"
                         value={tempAddress.name}
                         onChange={(e) => onEditAddress("name", e.target.value)}
                     />
+                    {errors.name && (
+                        <span className="ml-auto col-9">
+                            {errors.name.message}
+                        </span>
+                    )}
                 </div>
+
                 <div className="input-group  mb-2 row">
                     <label className="col-3" htmlFor="address_tel">
                         联系电话：
                     </label>
                     {/*TODO:表单检查*/}
                     <input
+                        ref={register({
+                            required: {
+                                value: true,
+                                message: "telNumber is needed"
+                            },
+                            pattern: {
+                                value: /^[0-9]{11}$/,
+                                message: "invalid telNumber, please check again"
+                            }
+                        })}
                         type="tel"
                         name="tel"
                         className="form-control"
                         value={tempAddress.tel}
                         onChange={(e) => onEditAddress("tel", e.target.value)}
                     />
+                    {errors.tel && (
+                        <span className="ml-auto col-9">
+                            {errors.tel.message}
+                        </span>
+                    )}
                 </div>
                 <div className="input-group row">
                     <label className="col-3" htmlFor="address_detail">
                         详细地址：
                     </label>
                     <textarea
+                        ref={register({
+                            required: {
+                                value: true,
+                                message: "address is needed"
+                            }
+                        })}
                         type="text"
                         name="detail"
                         className="form-control"
@@ -168,6 +202,11 @@ function AddressEdit({ address, onSave, onCancel }) {
                             onEditAddress("detail", e.target.value)
                         }
                     />
+                    {errors.detail && (
+                        <span className="ml-auto col-9">
+                            {errors.detail.message}
+                        </span>
+                    )}
                 </div>
             </form>
 
