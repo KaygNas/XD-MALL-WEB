@@ -8,6 +8,8 @@ import { getDataByApi, postDataByApi } from "../../app/dataRequest"
 import { SpinArrow } from "../common/Animation"
 import { selectAllItems } from "../../app/cartSlice"
 import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
 
 export default function Settle() {
     const [isEditing, setIsEditing] = useState(false)
@@ -112,10 +114,20 @@ function AddressDisplay({ address, onStartEdit }) {
     )
 }
 
+const schema = yup.object().shape({
+    name: yup.string().required("name is required").max(10, "name is too long"),
+    tel: yup
+        .string()
+        .matches(/^[1-9]*$/, "please input numbers")
+        .length(11, "telNumber should have 11 number"),
+    detail: yup.string().ensure()
+})
+
 function AddressEdit({ address, onSave, onCancel }) {
     const [tempAddress, setTempAddress] = useState(address.data)
     const { register, handleSubmit, watch, errors } = useForm({
-        criteriaMode: "all"
+        criteriaMode: "all",
+        resolver: yupResolver(schema)
     })
     function onEditAddress(type, input) {
         setTempAddress({ ...tempAddress, [type]: input })
@@ -136,64 +148,36 @@ function AddressEdit({ address, onSave, onCancel }) {
                         店名：
                     </label>
                     <input
-                        ref={register({
-                            required: {
-                                value: true,
-                                message: "name is needed"
-                            }
-                        })}
+                        ref={register}
                         type="text"
                         name="name"
                         className="form-control"
                         value={tempAddress.name}
                         onChange={(e) => onEditAddress("name", e.target.value)}
                     />
-                    {errors.name && (
-                        <span className="ml-auto col-9">
-                            {errors.name.message}
-                        </span>
-                    )}
+                    <ErrorMsg error={errors.name} />
                 </div>
 
                 <div className="input-group  mb-2 row">
                     <label className="col-3" htmlFor="address_tel">
                         联系电话：
                     </label>
-                    {/*TODO:表单检查*/}
                     <input
-                        ref={register({
-                            required: {
-                                value: true,
-                                message: "telNumber is needed"
-                            },
-                            pattern: {
-                                value: /^[0-9]{11}$/,
-                                message: "invalid telNumber, please check again"
-                            }
-                        })}
+                        ref={register}
                         type="tel"
                         name="tel"
                         className="form-control"
                         value={tempAddress.tel}
                         onChange={(e) => onEditAddress("tel", e.target.value)}
                     />
-                    {errors.tel && (
-                        <span className="ml-auto col-9">
-                            {errors.tel.message}
-                        </span>
-                    )}
+                    <ErrorMsg error={errors.tel} />
                 </div>
                 <div className="input-group row">
                     <label className="col-3" htmlFor="address_detail">
                         详细地址：
                     </label>
                     <textarea
-                        ref={register({
-                            required: {
-                                value: true,
-                                message: "address is needed"
-                            }
-                        })}
+                        ref={register}
                         type="text"
                         name="detail"
                         className="form-control"
@@ -202,11 +186,7 @@ function AddressEdit({ address, onSave, onCancel }) {
                             onEditAddress("detail", e.target.value)
                         }
                     />
-                    {errors.detail && (
-                        <span className="ml-auto col-9">
-                            {errors.detail.message}
-                        </span>
-                    )}
+                    <ErrorMsg error={errors.detail} />
                 </div>
             </form>
 
@@ -229,4 +209,10 @@ function AddressEdit({ address, onSave, onCancel }) {
             </div>
         </>
     )
+}
+
+function ErrorMsg({ error }) {
+    if (!error) return null
+
+    return <span className="ml-auto col-9 text-danger">{error.message}</span>
 }
