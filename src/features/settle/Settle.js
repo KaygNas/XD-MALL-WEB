@@ -115,23 +115,25 @@ function AddressDisplay({ address, onStartEdit }) {
 }
 
 const schema = yup.object().shape({
-    name: yup.string().required("name is required").max(10, "name is too long"),
+    name: yup
+        .string()
+        .required("name is required")
+        .max(10, () => "name is too long"),
     tel: yup
         .string()
-        .matches(/^[1-9]*$/, "please input numbers")
-        .length(11, "telNumber should have 11 number"),
+        .required("tel is required")
+        .length(11, "telNumber should have 11 numbers")
+        .matches(/^\d+$/, "telNumber should be only numbers"),
     detail: yup.string().ensure()
 })
 
 function AddressEdit({ address, onSave, onCancel }) {
-    const [tempAddress, setTempAddress] = useState(address.data)
     const { register, handleSubmit, watch, errors } = useForm({
         criteriaMode: "all",
         resolver: yupResolver(schema)
     })
-    function onEditAddress(type, input) {
-        setTempAddress({ ...tempAddress, [type]: input })
-    }
+
+    const tempAddress = address.data
     const isLoading = address.status === "loading"
 
     console.log("errors", errors)
@@ -152,8 +154,7 @@ function AddressEdit({ address, onSave, onCancel }) {
                         type="text"
                         name="name"
                         className="form-control"
-                        value={tempAddress.name}
-                        onChange={(e) => onEditAddress("name", e.target.value)}
+                        defaultValue={tempAddress.name}
                     />
                     <ErrorMsg error={errors.name} />
                 </div>
@@ -167,8 +168,7 @@ function AddressEdit({ address, onSave, onCancel }) {
                         type="tel"
                         name="tel"
                         className="form-control"
-                        value={tempAddress.tel}
-                        onChange={(e) => onEditAddress("tel", e.target.value)}
+                        defaultValue={tempAddress.tel}
                     />
                     <ErrorMsg error={errors.tel} />
                 </div>
@@ -181,10 +181,7 @@ function AddressEdit({ address, onSave, onCancel }) {
                         type="text"
                         name="detail"
                         className="form-control"
-                        value={tempAddress.detail}
-                        onChange={(e) =>
-                            onEditAddress("detail", e.target.value)
-                        }
+                        defaultValue={tempAddress.detail}
                     />
                     <ErrorMsg error={errors.detail} />
                 </div>
